@@ -1,7 +1,7 @@
 import re
 from collections import Counter
 
-filepath = "C:/Users/Klaudia/Desktop/PJN/PJN/lab01/test/pl1.txt"
+filepath = "test/pl1.txt"
 
 def preprocess_text(filepath):
     with open(filepath, encoding="utf8") as f:
