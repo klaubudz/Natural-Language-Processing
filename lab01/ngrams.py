@@ -25,22 +25,4 @@ def create_ngrams(filepath, n):
     #print(ngrams)
     return ngrams
 
-
-
-
-
-
-# def create_word_ngrams(filepath, n):
-#     text = preprocess_text(filepath)
-#     wordngrams = Counter()
-#     singleWordNgram = ""
-#     for word in text.split():
-#         if len(singleWordNgram.split()) != n:
-#             singleWordNgram += word
-#             singleWordNgram += " "
-#         else:
-#             wordngrams[singleWordNgram] += 1
-#             singleWordNgram = ' '.join((singleWordNgram.split())[1:])
-#     print(wordngrams)
-
 #create_ngrams(filepath, 3)
