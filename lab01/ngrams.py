@@ -1,10 +1,10 @@
 import re
 from collections import Counter
 
-filepath = "/home/klaudia/Downloads/PJN/lab01/lang/polish1.txt"
+filepath = "C:/Users/Klaudia/Desktop/PJN/PJN/lab01/test/pl1.txt"
 
 def preprocess_text(filepath):
-    with open(filepath) as f:
+    with open(filepath, encoding="utf8") as f:
         text = f.read()
         text = text.lower()
         text = re.sub("[()[\]{\}0-9.,\":;?!*@=&_]", "", text)
@@ -24,6 +24,11 @@ def create_ngrams(filepath, n):
             singleNgram += c
     #print(ngrams)
     return ngrams
+
+
+
+
+
 
 # def create_word_ngrams(filepath, n):
 #     text = preprocess_text(filepath)
