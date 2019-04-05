@@ -1,4 +1,5 @@
 import re
+import numpy as np
 from collections import Counter
 
 filepath_dictionary = "data/odm.txt"
@@ -13,7 +14,7 @@ def preprocess_text(filepath):
         text = re.sub("\s+", " ", text)
     return text
 
-def split_text(filepath):
+def split_text_into_words(filepath):
     text = preprocess_text(filepath)
     words = text.split()
     return words
@@ -80,18 +81,51 @@ def ngrams_of_words(splitted_text, n):
 			ngrams[singleNgram] = 1
 	return ngrams
 
+def calculate_mandelbrot_const(base_words):
+	rank = 0
+	rank_list = []
+	freq_list = []
+	for word in base_words.most_common():
+		rank += 1
+		rank_list.append(rank)
+		freq = word[1]
+		freq_list.append(freq)
+
+	log_r = np.log(rank_list)
+	log_f = np.log(freq_list)
+	# Least-squares solution to a linear matrix equation
+	A = np.vstack([log_r, np.ones(len(log_r))]).T
+	_B, log_P = np.linalg.lstsq(A, log_f)[0]
+
+	B = - _B
+	d = calculate_d_const(log_P, B, log_f[0])
+	P = np.exp([log_P])[0]
+	print("B: " + str(B))
+	print("d: " + str(d))
+	print("P: " + str(P))
+	# return B, d, P
+
+# For 1st element in ranking
+def calculate_d_const(log_P, B, max_log_freq):
+	return np.exp([(log_P - max_log_freq) / B])[0] - 1
 
 
-splitted_text = split_text(filepath_test)
+splitted_text = split_text_into_words(filepath_test)
 dictionary = prepare_dictionary(filepath_dictionary)
 text2base = bring_text_to_base(splitted_text, dictionary)
-#print(text2base.most_common(40))
-write_data_to_file("stats.txt", text2base)
+#write_data_to_file("stats.txt", text2base)
+print()
+print(text2base.most_common(40))
+print()
 print("Hapex:")
 print(count_hapex_legomena(text2base))
+print()
+print("First and second 50\% of the text - number of words:")
 print(find_half_of_words(text2base))
+print()
 print(ngrams_of_words(splitted_text, 3).most_common(20))
-
+print()
+calculate_mandelbrot_const(text2base)
 
 
 
